@@ -1,3 +1,4 @@
+import java.util.Random;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -329,21 +330,6 @@ public class MyVector {
     }
 
     /**
-     * Returns a random MyVector
-     * @param lowerBound the lowest x or y value that can be returned
-     * @param upperBound the highest x or y value that can be returned
-     * @return a random MyVector of Real numbers
-     * */
-    /*public static MyVector randomMyVector(int lowerBound, int upperBound) {
-        Random rand = new Random();
-        float x = rand.nextInt(upperBound - lowerBound);
-        x = x > 0 ? x + lowerBound : -x + lowerBound;
-        float y = rand.nextInt(upperBound - lowerBound);
-        y = y > 0 ? y + lowerBound : -y + lowerBound;
-        return new MyVector(x, y);
-    }*/
-
-    /**
      * Computes cross product of the myVector represented by this instance
      * and the specified myVector.
      *
@@ -353,6 +339,31 @@ public class MyVector {
      */
     public final float cross(MyVector myVector) {
         return this.x * myVector.y - this.y * myVector.x;
+    }
+    
+        /**
+     * Returns a random MyVector
+     * @return a random MyVector of with components ranging from 0 to 1
+     * */
+    public static MyVector randomMyVector() {
+        Random rand = new Random();
+
+        // Choose random floats between 0 and 1
+        return new MyVector(rand.nextFloat(), rand.nextFloat());
+    }
+    
+   /**
+    * Scales the MyVector represented by this instance
+    * Multiplies the x and y components of the MyVector represented by
+    * this instance by the specified x and y variables
+    * @param x the nuymber by which to multiply the x component of MyVector
+    *   represented by this instance
+    * @param y the nuymber by which to multiply the y component of MyVector
+    *   represented by this instance
+    */
+    public void scale(float x, float y) {
+        this.x *= x;
+        this.y *= y;
     }
 
     /**
