@@ -23,6 +23,26 @@ public class Scene {
     }
 
     /**
+     * Add a RigidBody to the physics simulation
+     */
+    public void add(RigidBody rigidBody) {
+        rigidBodies.add(rigidBody);
+    }
+
+    /**
+     * Remove a Rigid body from the physics simulation
+     */
+    public void remove(int i) {
+        rigidBodies.remove(i);
+    }
+    /**
+     * Remove a Rigid body from the physics simulation
+     */
+    public void remove(RigidBody rigidBody) {
+        rigidBodies.remove(rigidBody);
+    }
+
+    /**
      * Updates all of the rigid bodies currently in the simulation
      */
     public void update(float dt) {
@@ -93,14 +113,6 @@ public class Scene {
 
     public void setLevel(Level level) {
         this.level = level;
-    }
-
-    public ArrayList<RigidBody> getRigidBodies() {
-        return rigidBodies;
-    }
-
-    public void setRigidBodies(ArrayList<RigidBody> rigidBodies) {
-        this.rigidBodies = rigidBodies;
     }
 
     public ArrayList<MyVector> getGlobalForces() {
