@@ -16,5 +16,19 @@ public class Tile extends JPanel {
     /**
      * Getters and Setters
      */
+    public BufferedImage getImg() {
+        return img;
+    }
 
+    public void setImg(BufferedImage img) {
+        this.img = img;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 }

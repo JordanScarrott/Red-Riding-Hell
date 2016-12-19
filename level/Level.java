@@ -1,6 +1,6 @@
 package level;
 
-import core.MyVector;
+import common.MyVector;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,8 @@ public class Level {
     private ArrayList<MyVector> globalForces;
 
     public Level() {
-
+        tiles = new Tile[10][10];
+        tiles[5][5] = new Tile(null, "Tile at tiles[5][5]");
     }
 
     /**

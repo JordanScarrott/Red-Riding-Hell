@@ -1,5 +1,6 @@
 import bodies.RigidBody;
-import core.MyVector;
+import common.MyVector;
+import common.MathUtils;
 import level.Level;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class Scene {
     public Scene() {
         rigidBodies = new ArrayList<>();
         globalForces = new ArrayList<>();
+        // Gravity
+        globalForces.add(new MyVector(0, 1));
     }
 
     /**
@@ -35,6 +38,7 @@ public class Scene {
     public void remove(int i) {
         rigidBodies.remove(i);
     }
+
     /**
      * Remove a Rigid body from the physics simulation
      */
@@ -43,9 +47,9 @@ public class Scene {
     }
 
     /**
-     * Updates all of the rigid bodies currently in the simulation
+     * Updates all of the RigidBodies currently in the simulation
      */
-    public void update(float dt) {
+    public void step(float dt) {
         // Apply global forces
         for (RigidBody rb : rigidBodies) {
             for (MyVector mv : globalForces) {
@@ -61,7 +65,7 @@ public class Scene {
 
         // Collision Detection (With Tiles)
         for (RigidBody rb : rigidBodies) {
-            collisionDetection(rb);
+            System.out.println(collisionDetection(rb));
         }
 
         // Collision Resolution (With Tiles)
@@ -73,15 +77,58 @@ public class Scene {
     }
 
     /**
-     * Detects collisions between Tiles and a RigidBody
+     * Version 2 of the RigidBody - Tile Collision Detection Algorithm
+     * Detects RigidBody - Tile collisions for variable sized quads
+     *
+     * NB: Top and Bottom Right coordinates might be checked twice
+     * under certain conditions
+     *
+     * @param rb the RigidBody to perform collision detection upon
+     * @return a MyVector representing the location of the Tile in
+     * the grid that the RigidBody is colliding with. If there is no
+     * collision returns null
      */
-    public void collisionDetection(RigidBody rigidBody) {
-        int x = (int)rigidBody.location.x;
-        int y = (int)rigidBody.location.y;
+    public MyVector collisionDetection(RigidBody rb) {
+        // Top Left Coordinate
+        MyVector topLeft = MyVector.sub(rb.location, rb.halfDim);
 
-        if (level.getTiles()[x + 1][y] != null) {
-
+        for (float i = topLeft.x; i < topLeft.x + rb.dimensions.x; i++) {
+            for (float j = topLeft.y; j < topLeft.x + rb.dimensions.y; j++) {
+                if (tileCollision(i, j)) return rb.location;
+            }
         }
+
+        // Corners
+        /*if (tileCollision(topLeft.x, topLeft.y)) return topLeft;
+        if (tileCollision(topLeft.x + rb.dimensions.x - 1, topLeft.y)) return topLeft.add(rb.dimensions.x - 1, 0);
+        if (tileCollision(topLeft.x, topLeft.y + rb.dimensions.y - 1)) return topLeft.add(0, rb.dimensions.y - 1);
+        if (tileCollision(topLeft.x + rb.dimensions.x - 1, topLeft.y + rb.dimensions.y - 1)) return topLeft.add(rb.dimensions.x - 1, rb.dimensions.y - 1);
+
+        // Left and Right sides
+        for (float i = topLeft.x + 1; i < rb.dimensions.x; i++) {
+            if (tileCollision(i, topLeft.y)) return topLeft.set(i, topLeft.y);
+            if (tileCollision(i, topLeft.y + rb.dimensions.y)) return topLeft.set(i, topLeft.y + rb.dimensions.y);
+        }
+        // Top and Bottom sides
+        for (float i = topLeft.y + 1; i < rb.dimensions.y; i++) {
+            if (tileCollision(topLeft.x, i)) return topLeft.set(topLeft.x, i);
+            if (tileCollision(topLeft.x + rb.dimensions.x, i)) return topLeft.set(topLeft.x + rb.dimensions.x, i);
+        }*/
+
+        return null;
+    }
+
+    /**
+     * @param x x position in the Tiles[][] grid
+     * @param y y position in the Tiles[][] grid
+     * @return true if player collides with a tile at this position
+     */
+    public boolean tileCollision(int x, int y) {
+        return level.getTiles()[x][y] != null;
+    }
+
+    public boolean tileCollision(float x, float y) {
+        return level.getTiles()[MathUtils.round(x)][MathUtils.round(y)] != null;
     }
 
     /**
@@ -121,5 +168,13 @@ public class Scene {
 
     public void setGlobalForces(ArrayList<MyVector> globalForces) {
         this.globalForces = globalForces;
+    }
+
+    public ArrayList<RigidBody> getRigidBodies() {
+        return rigidBodies;
+    }
+
+    public void setRigidBodies(ArrayList<RigidBody> rigidBodies) {
+        this.rigidBodies = rigidBodies;
     }
 }
