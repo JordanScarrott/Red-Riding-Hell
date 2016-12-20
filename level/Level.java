@@ -1,7 +1,9 @@
 package level;
 
 import common.MyVector;
+import common.ResourceLoader;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -12,9 +14,25 @@ public class Level {
     private Tile[][] tiles;
     private ArrayList<MyVector> globalForces;
 
-    public Level() {
-        tiles = new Tile[10][10];
-        tiles[5][5] = new Tile(null, "Tile at tiles[5][5]");
+    public Level(File file) {
+        tiles = ResourceLoader.readFile(ResourceLoader.loadImage("spriteSheets\\spritesheet0.png"), 32, file.getName());
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 15; j++) {
+                if (tiles[j][i] != null) {
+                    System.out.println(tiles[j][i].toString());
+                }
+            }
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Gravity
+        globalForces = new ArrayList<>();
+        globalForces.add(new MyVector(0, 10));
     }
 
     /**

@@ -10,6 +10,11 @@ import java.awt.image.BufferedImage;
 public class RigidBody {
 
     /**
+     * The size of each Tile/block in the grid in pixels
+     */
+    public static final int BLOCK_SIZE = 32;
+
+    /**
      * Image that will be rendered representing this RigidBody instance
      * Dimensions could be derived from this -> (convert to grid units!)
      * - Divide by gridSize / scale
@@ -36,13 +41,13 @@ public class RigidBody {
     /**
      * An object that requires physics computations
      */
-    public RigidBody(float mass) {
+    public RigidBody(float x, float y, float width, float height, float mass) {
         this.invMass = 1 / mass;
 
-        dimensions = new MyVector(2.312f, 2.10101f);
+        dimensions = new MyVector(width / BLOCK_SIZE, height / BLOCK_SIZE);
         halfDim = new MyVector(dimensions.x / 2, dimensions.y / 2);
 
-        location = new MyVector();
+        location = new MyVector(x / BLOCK_SIZE, y / BLOCK_SIZE);
         velocity = new MyVector();
         acceleration = new MyVector();
         netForce = new MyVector();

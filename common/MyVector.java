@@ -164,6 +164,7 @@ public class MyVector {
 
     /**
      * Sets the components, x and y, of this <code>MyVector</code>
+     *
      * @return the MyVector with the new values
      */
     public MyVector set(float x, float y) {

@@ -1,6 +1,6 @@
 import bodies.RigidBody;
-import common.MyVector;
 import common.MathUtils;
+import common.MyVector;
 import level.Level;
 
 import java.util.ArrayList;
@@ -21,8 +21,6 @@ public class Scene {
     public Scene() {
         rigidBodies = new ArrayList<>();
         globalForces = new ArrayList<>();
-        // Gravity
-        globalForces.add(new MyVector(0, 1));
     }
 
     /**
@@ -65,7 +63,10 @@ public class Scene {
 
         // Collision Detection (With Tiles)
         for (RigidBody rb : rigidBodies) {
-            System.out.println(collisionDetection(rb));
+            MyVector temp = collisionDetection(rb);
+            if (temp != null) {
+                System.out.println(temp);
+            }
         }
 
         // Collision Resolution (With Tiles)
@@ -79,7 +80,7 @@ public class Scene {
     /**
      * Version 2 of the RigidBody - Tile Collision Detection Algorithm
      * Detects RigidBody - Tile collisions for variable sized quads
-     *
+     * <p>
      * NB: Top and Bottom Right coordinates might be checked twice
      * under certain conditions
      *
@@ -94,7 +95,10 @@ public class Scene {
 
         for (float i = topLeft.x; i < topLeft.x + rb.dimensions.x; i++) {
             for (float j = topLeft.y; j < topLeft.x + rb.dimensions.y; j++) {
-                if (tileCollision(i, j)) return rb.location;
+                if (tileCollision(i, j)) {
+                    System.out.println("Collision detected at: " + rb.location);
+                    return rb.location;
+                }
             }
         }
 
@@ -124,8 +128,9 @@ public class Scene {
      * @return true if player collides with a tile at this position
      */
     public boolean tileCollision(float x, float y) {
-        return level.getTiles()[MathUtils.round(x)][MathUtils.round(y)] != null;
+        return level.getTiles()[MathUtils.absRound(x)][MathUtils.absRound(y)] != null;
     }
+
     public boolean tileCollision(int x, int y) {
         return level.getTiles()[x][y] != null;
     }
@@ -159,6 +164,7 @@ public class Scene {
 
     public void setLevel(Level level) {
         this.level = level;
+        this.globalForces.addAll(level.getGlobalForces());
     }
 
     public ArrayList<MyVector> getGlobalForces() {

@@ -35,4 +35,13 @@ public class MathUtils {
         }
     }
 
+    /**
+     * @param a the number to absRound
+     * @return absolute value of round(a)
+     */
+    public static int absRound(float a) {
+        int x = round(a);
+        return x > 0 ? x : -x;
+    }
+
 }
