@@ -57,7 +57,7 @@ public class Scene {
             }
         }
 
-        // Integrate
+        // Integrate Forces and Velocities
         for (RigidBody rb : rigidBodies) {
             integrateForces(rb, dt);
             integrateVelocity(rb, dt);
@@ -123,12 +123,11 @@ public class Scene {
      * @param y y position in the Tiles[][] grid
      * @return true if player collides with a tile at this position
      */
-    public boolean tileCollision(int x, int y) {
-        return level.getTiles()[x][y] != null;
-    }
-
     public boolean tileCollision(float x, float y) {
         return level.getTiles()[MathUtils.round(x)][MathUtils.round(y)] != null;
+    }
+    public boolean tileCollision(int x, int y) {
+        return level.getTiles()[x][y] != null;
     }
 
     /**

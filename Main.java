@@ -12,7 +12,7 @@ public class Main {
         scene.getRigidBodies().get(0).location.set(5, 5);
         scene.setLevel(new Level());
 
-        scene.step(0.01f);
+        scene.step(0.001f);
     }
 
 }
