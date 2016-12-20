@@ -41,7 +41,36 @@ public class MathUtils {
      */
     public static int absRound(float a) {
         int x = round(a);
-        return x > 0 ? x : -x;
+        return x >= 0 ? x : -x;
     }
 
+    /**
+     * Prevents a number from exceeding a threshold
+     *
+     * @param x         the number to clamp
+     * @param threshold the max value that x can be
+     * @return the number if it is less than threshold else the number
+     * set to the same value as the threshold
+     */
+    public float clamp(float x, float threshold) {
+        return x = x > threshold ? threshold : x;
+    }
+
+    /**
+     * Clamps the number x withing the range of (min -> max)
+     *
+     * @param x   the number to clamp
+     * @param min minimum value of x
+     * @param max max value of x
+     * @return the clamped number
+     */
+    public float clamp(float x, float min, float max) {
+        if (x < min) {
+            return min;
+        } else if (x > max) {
+            return max;
+        } else {
+            return x;
+        }
+    }
 }

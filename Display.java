@@ -32,7 +32,7 @@ public class Display extends JPanel {
         }
 
         scene.setLevel(lvl);
-        scene.add(new RigidBody(128, 128, 32, 64, 10));
+        scene.add(new RigidBody(128, 65, 32, 64, 10));
 
     }
 
@@ -48,7 +48,11 @@ public class Display extends JPanel {
         super.paint(g);
         int blockSize = RigidBody.BLOCK_SIZE;
         for (RigidBody b : scene.getRigidBodies()) {
-            g.drawRect((int) (b.location.x * blockSize), (int) (b.location.y * blockSize), blockSize, blockSize);
+            g.drawRect((int) ((b.location.x - b.halfDim.x) * blockSize)
+                    , (int) ((b.location.y - b.halfDim.y) * blockSize)
+                    , (int) (b.dimensions.x * blockSize)
+                    , (int) (b.dimensions.y * blockSize)
+            );
         }
 
         Tile tile;
@@ -60,5 +64,6 @@ public class Display extends JPanel {
                 }
             }
         }
+        scene.paint(g);
     }
 }

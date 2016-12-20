@@ -3,12 +3,13 @@ import common.MathUtils;
 import common.MyVector;
 import level.Level;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
  * Created by Jordan on 2016-12-15.
  */
-public class Scene {
+public class Scene /*extends JPanel*/ {
 
     private Level level;
 
@@ -63,9 +64,14 @@ public class Scene {
 
         // Collision Detection (With Tiles)
         for (RigidBody rb : rigidBodies) {
-            MyVector temp = collisionDetection(rb);
-            if (temp != null) {
-                System.out.println(temp);
+            MyVector collisionCell = collisionDetection(rb);
+            if (collisionCell != null) {
+                System.out.println("Collision at location: " + collisionCell);
+                // Round y to nearest cell
+                collisionCell.y = MathUtils.round(collisionCell.y);
+                rb.location.set(collisionCell.sub(0, rb.dimensions.y));
+                rb.velocity.mult(-1);
+                System.out.println(rb.location + "\t" + rb.velocity);
             }
         }
 
@@ -94,9 +100,9 @@ public class Scene {
         MyVector topLeft = MyVector.sub(rb.location, rb.halfDim);
 
         for (float i = topLeft.x; i < topLeft.x + rb.dimensions.x; i++) {
-            for (float j = topLeft.y; j < topLeft.x + rb.dimensions.y; j++) {
-                if (tileCollision(i, j)) {
-                    System.out.println("Collision detected at: " + rb.location);
+            for (float j = topLeft.y; j < topLeft.y + rb.dimensions.y; j++) {
+//                repaint();
+                if (tileCollision(j, i)) {
                     return rb.location;
                 }
             }
@@ -120,6 +126,13 @@ public class Scene {
         }*/
 
         return null;
+    }
+
+    public void paint(Graphics g) {
+//        super.paint(g);
+
+//        g.setColor(Color.BLACK);
+//        g.drawRect(100, 100, 50, 50);
     }
 
     /**
