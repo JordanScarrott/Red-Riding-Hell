@@ -32,7 +32,7 @@ public class Level {
 
         // Gravity
         globalForces = new ArrayList<>();
-        globalForces.add(new MyVector(0, 10));
+        globalForces.add(new MyVector(0.2f, 1));
     }
 
     /**

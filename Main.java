@@ -24,8 +24,33 @@ public class Main {
         frame.add(d);
         frame.revalidate();
         frame.repaint();
+
+
+        float fps = 1;
+        float dt = 1 / fps;
+        float accumulator = 0;
+
+        float startTime = System.nanoTime();
+        float currentTime;
+
         while (true) {
-            d.update(0.001f);
+            currentTime = System.nanoTime();
+
+            // Store the time elapsed since the last frame began
+            accumulator += currentTime - startTime;
+            // Record the starting of this frame
+            startTime = currentTime;
+
+            // Clamp accumulator
+            if (accumulator > 0.2) accumulator = 0.2f;
+
+            while (accumulator > dt) {
+//                System.out.println(dt);
+                d.update(dt);
+                accumulator -= dt;
+            }
+
+            // Render
             d.repaint();
         }
     }

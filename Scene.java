@@ -69,7 +69,7 @@ public class Scene /*extends JPanel*/ {
 //                System.out.println("Collision at location: " + collisionCell);
                 // Round y to nearest cell
                 collisionCell.y = (int)(collisionCell.y);
-                rb.velocity.set(0, 0);
+                rb.velocity.set(0.01f, 0);
             }
         }
 
@@ -105,23 +105,6 @@ public class Scene /*extends JPanel*/ {
                 }
             }
         }
-
-        // Corners
-        /*if (tileCollision(topLeft.x, topLeft.y)) return topLeft;
-        if (tileCollision(topLeft.x + rb.dimensions.x - 1, topLeft.y)) return topLeft.add(rb.dimensions.x - 1, 0);
-        if (tileCollision(topLeft.x, topLeft.y + rb.dimensions.y - 1)) return topLeft.add(0, rb.dimensions.y - 1);
-        if (tileCollision(topLeft.x + rb.dimensions.x - 1, topLeft.y + rb.dimensions.y - 1)) return topLeft.add(rb.dimensions.x - 1, rb.dimensions.y - 1);
-
-        // Left and Right sides
-        for (float i = topLeft.x + 1; i < rb.dimensions.x; i++) {
-            if (tileCollision(i, topLeft.y)) return topLeft.set(i, topLeft.y);
-            if (tileCollision(i, topLeft.y + rb.dimensions.y)) return topLeft.set(i, topLeft.y + rb.dimensions.y);
-        }
-        // Top and Bottom sides
-        for (float i = topLeft.y + 1; i < rb.dimensions.y; i++) {
-            if (tileCollision(topLeft.x, i)) return topLeft.set(topLeft.x, i);
-            if (tileCollision(topLeft.x + rb.dimensions.x, i)) return topLeft.set(topLeft.x + rb.dimensions.x, i);
-        }*/
 
         return null;
     }
@@ -162,7 +145,7 @@ public class Scene /*extends JPanel*/ {
      */
     public void integrateForces(RigidBody rb, float dt) {
         // v += 1 / mass * forces * dt
-        rb.velocity.add(rb.netForce.mult(rb.invMass * dt));
+        rb.velocity.add(rb.netForce.mult(dt).mult(rb.invMass));
     }
 
 
