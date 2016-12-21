@@ -30,9 +30,12 @@ public class Level {
             e.printStackTrace();
         }
 
-        // Gravity
+        // Possible Global Forces
         globalForces = new ArrayList<>();
-        globalForces.add(new MyVector(0.2f, 1));
+        // Gravity
+        globalForces.add(new MyVector(0, 1));
+        // Wind
+        globalForces.add(new MyVector(0.003f, 0));
     }
 
     /**

@@ -57,7 +57,7 @@ public class MyVector {
      * <code>MyVector</code> and the specified scalar
      */
     public static MyVector mult(MyVector v, float m) {
-        return new MyVector(v.x *= m, v.y *= m);
+        return new MyVector(v.x * m, v.y * m);
     }
 
     /**

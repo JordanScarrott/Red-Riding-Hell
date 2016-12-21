@@ -32,7 +32,7 @@ public class Display extends JPanel {
         }
 
         scene.setLevel(lvl);
-        scene.add(new RigidBody(112, 65, 32, 64, 1));
+        scene.add(new RigidBody(112, 65, 32, 64, 10));
 
     }
 
@@ -46,12 +46,11 @@ public class Display extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        int blockSize = RigidBody.BLOCK_SIZE;
         for (RigidBody b : scene.getRigidBodies()) {
-            g.drawRect((int) ((b.location.x - b.halfDim.x) * blockSize)
-                    , (int) ((b.location.y - b.halfDim.y) * blockSize)
-                    , (int) (b.dimensions.x * blockSize)
-                    , (int) (b.dimensions.y * blockSize)
+            g.drawRect((int) (b.location.x - b.halfDim.x)
+                    , (int) (b.location.y - b.halfDim.y)
+                    , (int) (b.dimensions.x)
+                    , (int) (b.dimensions.y)
             );
         }
 

@@ -44,10 +44,10 @@ public class RigidBody {
     public RigidBody(float x, float y, float width, float height, float mass) {
         this.invMass = 1 / mass;
 
-        dimensions = new MyVector(width / BLOCK_SIZE, height / BLOCK_SIZE);
+        dimensions = new MyVector(width, height );
         halfDim = new MyVector(dimensions.x / 2, dimensions.y / 2);
 
-        location = new MyVector(x / BLOCK_SIZE, y / BLOCK_SIZE);
+        location = new MyVector(x, y);
         velocity = new MyVector();
         acceleration = new MyVector();
         netForce = new MyVector();

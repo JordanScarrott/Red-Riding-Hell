@@ -26,7 +26,7 @@ public class Main {
         frame.repaint();
 
 
-        float fps = 1;
+        float fps = 30;
         float dt = 1 / fps;
         float accumulator = 0;
 
@@ -42,7 +42,8 @@ public class Main {
             startTime = currentTime;
 
             // Clamp accumulator
-            if (accumulator > 0.2) accumulator = 0.2f;
+//              ??? NOT SURE WHY VALUE IS 0.2 !!!
+            if (accumulator > 0.2f) accumulator = 0.2f;
 
             while (accumulator > dt) {
 //                System.out.println(dt);

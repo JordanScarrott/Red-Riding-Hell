@@ -69,7 +69,7 @@ public class Scene /*extends JPanel*/ {
 //                System.out.println("Collision at location: " + collisionCell);
                 // Round y to nearest cell
                 collisionCell.y = (int)(collisionCell.y);
-                rb.velocity.set(0.01f, 0);
+                rb.velocity.y *= -0.75f;
             }
         }
 
@@ -97,8 +97,8 @@ public class Scene /*extends JPanel*/ {
         // Top Left Coordinate
         MyVector topLeft = MyVector.sub(rb.location, rb.halfDim);
 
-        for (float i = topLeft.x; i <= topLeft.x + rb.dimensions.x; i++) {
-            for (float j = topLeft.y; j <= topLeft.y + rb.dimensions.y; j++) {
+        for (float i = topLeft.x; i <= topLeft.x + rb.dimensions.x; i += RigidBody.BLOCK_SIZE) {
+            for (float j = topLeft.y; j <= topLeft.y + rb.dimensions.y; j += RigidBody.BLOCK_SIZE) {
 //                repaint();
                 if (tileCollision(j, i)) {
                     return rb.location;
@@ -122,7 +122,7 @@ public class Scene /*extends JPanel*/ {
      * @return true if player collides with a tile at this position
      */
     public boolean tileCollision(float x, float y) {
-        return level.getTiles()[(int)x][(int)y] != null;
+        return level.getTiles()[(int)(x / RigidBody.BLOCK_SIZE)][(int)(y / RigidBody.BLOCK_SIZE)] != null;
     }
 
     public boolean tileCollision(int x, int y) {
@@ -134,7 +134,7 @@ public class Scene /*extends JPanel*/ {
      */
     public void integrateVelocity(RigidBody rb, float dt) {
         // x += v * dt
-        rb.location.add(rb.velocity.mult(dt));
+        rb.location.add(MyVector.mult(rb.velocity, dt));
     }
 
     /**
