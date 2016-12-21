@@ -32,7 +32,7 @@ public class Display extends JPanel {
         }
 
         scene.setLevel(lvl);
-        scene.add(new RigidBody(128, 65, 32, 64, 10));
+        scene.add(new RigidBody(112, 65, 32, 64, 10));
 
     }
 

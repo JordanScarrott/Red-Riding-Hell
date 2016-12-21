@@ -51,6 +51,7 @@ public class RigidBody {
         velocity = new MyVector();
         acceleration = new MyVector();
         netForce = new MyVector();
+
     }
 
     /**
@@ -60,5 +61,7 @@ public class RigidBody {
     public void update() {
 
     }
+
+
 
 }

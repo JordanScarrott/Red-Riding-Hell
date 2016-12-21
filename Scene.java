@@ -66,12 +66,10 @@ public class Scene /*extends JPanel*/ {
         for (RigidBody rb : rigidBodies) {
             MyVector collisionCell = collisionDetection(rb);
             if (collisionCell != null) {
-                System.out.println("Collision at location: " + collisionCell);
+//                System.out.println("Collision at location: " + collisionCell);
                 // Round y to nearest cell
-                collisionCell.y = MathUtils.round(collisionCell.y);
-                rb.location.set(collisionCell.sub(0, rb.dimensions.y));
-                rb.velocity.mult(-1);
-                System.out.println(rb.location + "\t" + rb.velocity);
+                collisionCell.y = (int)(collisionCell.y);
+                rb.velocity.set(0, 0);
             }
         }
 
@@ -99,8 +97,8 @@ public class Scene /*extends JPanel*/ {
         // Top Left Coordinate
         MyVector topLeft = MyVector.sub(rb.location, rb.halfDim);
 
-        for (float i = topLeft.x; i < topLeft.x + rb.dimensions.x; i++) {
-            for (float j = topLeft.y; j < topLeft.y + rb.dimensions.y; j++) {
+        for (float i = topLeft.x; i <= topLeft.x + rb.dimensions.x; i++) {
+            for (float j = topLeft.y; j <= topLeft.y + rb.dimensions.y; j++) {
 //                repaint();
                 if (tileCollision(j, i)) {
                     return rb.location;
@@ -141,7 +139,7 @@ public class Scene /*extends JPanel*/ {
      * @return true if player collides with a tile at this position
      */
     public boolean tileCollision(float x, float y) {
-        return level.getTiles()[MathUtils.absRound(x)][MathUtils.absRound(y)] != null;
+        return level.getTiles()[(int)x][(int)y] != null;
     }
 
     public boolean tileCollision(int x, int y) {
