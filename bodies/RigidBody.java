@@ -2,12 +2,13 @@ package bodies;
 
 import common.MyVector;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 /**
  * Created by Jordan on 2016-12-15.
  */
-public class RigidBody {
+public class RigidBody extends JPanel {
 
     /**
      * The size of each Tile/block in the grid in pixels

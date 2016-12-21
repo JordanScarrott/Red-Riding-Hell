@@ -1,7 +1,9 @@
 import bodies.RigidBody;
+import collision.CollisionPair;
 import common.MathUtils;
 import common.MyVector;
 import level.Level;
+import level.Tile;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Scene /*extends JPanel*/ {
 
     private ArrayList<RigidBody> rigidBodies;
     private ArrayList<MyVector> globalForces;
+    private ArrayList<CollisionPair> collisionPairs;
 
     /**
      *
@@ -22,6 +25,7 @@ public class Scene /*extends JPanel*/ {
     public Scene() {
         rigidBodies = new ArrayList<>();
         globalForces = new ArrayList<>();
+        collisionPairs = new ArrayList<>();
     }
 
     /**
@@ -64,21 +68,21 @@ public class Scene /*extends JPanel*/ {
 
         // Collision Detection (With Tiles)
         for (RigidBody rb : rigidBodies) {
-            MyVector collisionCell = collisionDetection(rb);
+            Tile collisionCell = collisionDetection(rb);
             if (collisionCell != null) {
-//                System.out.println("Collision at location: " + collisionCell);
-                // Round y to nearest cell
-                collisionCell.y = (int)(collisionCell.y);
+                // Generate collision pair
+                collisionPairs.add(new CollisionPair(rb, collisionCell));
                 rb.velocity.y *= -0.75f;
             }
         }
 
         // Collision Resolution (With Tiles)
 
-        // Clear forces
+        // Clear forces and collision pairs
         for (RigidBody rb : rigidBodies) {
             rb.netForce.set(0, 0);
         }
+        collisionPairs.clear();
     }
 
     /**
@@ -89,11 +93,10 @@ public class Scene /*extends JPanel*/ {
      * under certain conditions
      *
      * @param rb the RigidBody to perform collision detection upon
-     * @return a MyVector representing the location of the Tile in
-     * the grid that the RigidBody is colliding with. If there is no
-     * collision returns null
+     * @return the Tile in the grid that the RigidBody is colliding with.
+     * If there is no collision returns null
      */
-    public MyVector collisionDetection(RigidBody rb) {
+    public Tile collisionDetection(RigidBody rb) {
         // Top Left Coordinate
         MyVector topLeft = MyVector.sub(rb.location, rb.halfDim);
 
@@ -101,7 +104,7 @@ public class Scene /*extends JPanel*/ {
             for (float j = topLeft.y; j <= topLeft.y + rb.dimensions.y; j += RigidBody.BLOCK_SIZE) {
 //                repaint();
                 if (tileCollision(j, i)) {
-                    return rb.location;
+                    return level.getTiles()[(int)(j / RigidBody.BLOCK_SIZE)][(int)(i / RigidBody.BLOCK_SIZE)];
                 }
             }
         }

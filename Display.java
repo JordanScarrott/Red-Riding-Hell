@@ -1,3 +1,4 @@
+import bodies.Player;
 import bodies.RigidBody;
 import level.Level;
 import level.Tile;
@@ -32,7 +33,7 @@ public class Display extends JPanel {
         }
 
         scene.setLevel(lvl);
-        scene.add(new RigidBody(112, 65, 32, 64, 10));
+        scene.add(new Player(112, 65, 32, 64, 10));
 
     }
 
