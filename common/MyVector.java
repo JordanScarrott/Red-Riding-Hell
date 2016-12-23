@@ -155,6 +155,16 @@ public class MyVector {
     }
 
     /**
+     * Computes the magnitude squared of the the MyVector
+     * represented by this instance
+     *
+     * @return the square magnitude of the specified MyVector
+     */
+    public float magSq() {
+        return this.x * this.x + this.y * this.y;
+    }
+
+    /**
      * Sets the components, x and y, of this <code>MyVector</code>
      */
     public void set(MyVector v) {
@@ -302,11 +312,14 @@ public class MyVector {
     public MyVector normalize() {
         final float mag = magnitude();
 
-        if (mag == 0.0) {
-            return new MyVector(0.0f, 0.0f);
+        if (mag == 0.0f) {
+            return this;
         }
 
-        return new MyVector(this.x / mag, this.y / mag);
+        this.x /= mag;
+        this.y /= mag;
+
+        return this;
     }
 
     /**
