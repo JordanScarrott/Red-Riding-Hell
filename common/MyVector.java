@@ -1,4 +1,4 @@
-package common;
+import java.util.Random;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -58,100 +58,6 @@ public class MyVector {
      */
     public static MyVector mult(MyVector v, float m) {
         return new MyVector(v.x * m, v.y * m);
-    }
-
-    /**
-     * Computes the magnitude squared of the specified MyVector
-     *
-     * @return the square magnitude of the specified MyVector
-     * @throws NullPointerException if the specified {@code MyVector} is null
-     */
-    public static float magSq(MyVector myVector) {
-        return myVector.x * myVector.x + myVector.y * myVector.y;
-    }
-
-    /**
-     * Computes dot (scalar) product of two Vectors
-     *
-     * @param v1 the first MyVector
-     * @param v2 the second MyVector
-     * @return the dot product of the two vectors
-     * @throws NullPointerException if the specified {@code vector} is null
-     */
-    public static float dotProduct(MyVector v1, MyVector v2) {
-        return v1.x * v2.x + v1.y * v2.y;
-    }
-
-    /**
-     * Computes the angle (in degrees) between two Vectors
-     *
-     * @param v1 the first MyVector
-     * @param v2 the second MyVector
-     * @return the angle between the two vectors measured in degrees
-     */
-    public static float angle(MyVector v1, MyVector v2) {
-        final float delta = (v1.x * v2.x + v1.y * v2.y) / (float) Math.sqrt(
-                (v1.x * v1.x + v1.y * v1.y) * (v2.x * v2.x + v2.y * v2.y));
-
-        if (delta > 1.0) {
-            return 0.0f;
-        }
-        if (delta < -1.0) {
-            return 180.0f;
-        }
-
-        return (float) Math.toDegrees(Math.acos(delta));
-    }
-
-    /**
-     * Returns the square of the distance between two points.
-     *
-     * @param x1 the X coordinate of the first specified point
-     * @param y1 the Y coordinate of the first specified point
-     * @param x2 the X coordinate of the second specified point
-     * @param y2 the Y coordinate of the second specified point
-     * @return the square of the distance between the two
-     * sets of specified coordinates.
-     */
-    public static float distanceSq(float x1, float y1, float x2, float y2) {
-        x1 -= x2;
-        y1 -= y2;
-        return (x1 * x1 + y1 * y1);
-    }
-
-    /**
-     * Rotates a MyVector by 90 degrees
-     *
-     * @param myVector the MyVector to rotate
-     * @return the specified MyVector rotated by 90deg
-     */
-    public static MyVector rotate90(MyVector myVector) {
-        return new MyVector(-myVector.y, myVector.x);
-    }
-
-    /**
-     * Rotates a MyVector by -90 degrees
-     *
-     * @param myVector the MyVector to rotate
-     * @return the specified MyVector rotated by -90deg
-     */
-    public static MyVector rotateMin90(MyVector myVector) {
-        return new MyVector(myVector.y, -myVector.x);
-    }
-
-    /**
-     * Returns myVector rotated by an angle of radAngle radians
-     *
-     * @param myVector the MyVector to rotate
-     * @param radAngle angle in radians
-     * @return a rotated MyVector
-     */
-    public static MyVector rotate(MyVector myVector, float radAngle) {
-        double sine = sin(radAngle);
-        double cosine = cos(radAngle);
-
-        return new MyVector((float) (myVector.x * cosine - myVector.y * sine)
-                , (float) (myVector.x * sine + myVector.y * cosine));
     }
 
     /**
@@ -283,16 +189,6 @@ public class MyVector {
     }
 
     /**
-     * Returns the angle between the positive Cartesian X axis and the
-     * MyVector represented by this instance
-     *
-     * @return the bearing of the MyVector represented by this instance
-     */
-    public float bearing() {
-        return angle(1, 0);
-    }
-
-    /**
      * Computes magnitude (length) of the relative magnitude vector represented
      * by this instance.
      *
@@ -347,21 +243,6 @@ public class MyVector {
     }
 
     /**
-     * Returns a random MyVector
-     * @param lowerBound the lowest x or y value that can be returned
-     * @param upperBound the highest x or y value that can be returned
-     * @return a random MyVector of Real numbers
-     * */
-    /*public static MyVector randomMyVector(int lowerBound, int upperBound) {
-        Random rand = new Random();
-        float x = rand.nextInt(upperBound - lowerBound);
-        x = x > 0 ? x + lowerBound : -x + lowerBound;
-        float y = rand.nextInt(upperBound - lowerBound);
-        y = y > 0 ? y + lowerBound : -y + lowerBound;
-        return new MyVector(x, y);
-    }*/
-
-    /**
      * Computes cross product of the myVector represented by this instance
      * and the specified myVector.
      *
@@ -371,6 +252,68 @@ public class MyVector {
      */
     public final float cross(MyVector myVector) {
         return this.x * myVector.y - this.y * myVector.x;
+    }
+
+    /**
+     * Scales the MyVector represented by this instance
+     * Multiplies the x and y components of the MyVector represented by
+     * this instance by the specified x and y variables
+     *
+     * @param x the number by which to multiply the x component of MyVector
+     *          represented by this instance
+     * @param y the number by which to multiply the y component of MyVector
+     *          represented by this instance
+     */
+    public void scale(float x, float y) {
+        this.x *= x;
+        this.y *= y;
+    }
+
+    /**
+     * Returns the square of the distance between two points.
+     *
+     * @param x1 the X coordinate of the first specified point
+     * @param y1 the Y coordinate of the first specified point
+     * @param x2 the X coordinate of the second specified point
+     * @param y2 the Y coordinate of the second specified point
+     * @return the square of the distance between the two
+     * sets of specified coordinates.
+     */
+    public static float distanceSq(float x1, float y1, float x2, float y2) {
+        x1 -= x2;
+        y1 -= y2;
+        return (x1 * x1 + y1 * y1);
+    }
+
+    /**
+     * Computes the angle (in degrees) between two Vectors
+     *
+     * @param v1 the first MyVector
+     * @param v2 the second MyVector
+     * @return the angle between the two vectors measured in degrees
+     */
+    public static float angle(MyVector v1, MyVector v2) {
+        final float delta = (v1.x * v2.x + v1.y * v2.y) / (float) Math.sqrt(
+                (v1.x * v1.x + v1.y * v1.y) * (v2.x * v2.x + v2.y * v2.y));
+
+        if (delta > 1.0) {
+            return 0.0f;
+        }
+        if (delta < -1.0) {
+            return 180.0f;
+        }
+
+        return (float) Math.toDegrees(Math.acos(delta));
+    }
+
+    /**
+     * Returns the angle between the positive Cartesian X axis and the
+     * MyVector represented by this instance
+     *
+     * @return the bearing of the MyVector represented by this instance
+     */
+    public float bearing() {
+        return angle(1, 0);
     }
 
     /**
@@ -399,14 +342,50 @@ public class MyVector {
     }
 
     /**
-     * Rotates the MyVector represented by this instance 90deg
+     * Returns myVector rotated by an angle of radAngle radians
+     *
+     * @param myVector the MyVector to rotate
+     * @param radAngle angle in radians
+     * @return a rotated MyVector
      */
-    public void rotate90() {
-        float newX = -this.y;
-        float newY = this.x;
+    public static MyVector rotate(MyVector myVector, float radAngle) {
+        double sine = sin(radAngle);
+        double cosine = cos(radAngle);
 
-        this.x = newX;
-        this.y = newY;
+        return new MyVector((float) (myVector.x * cosine - myVector.y * sine)
+                , (float) (myVector.x * sine + myVector.y * cosine));
+    }
+
+    /**
+     * Rotates a MyVector by 90 degrees
+     *
+     * @param myVector the MyVector to rotate
+     * @return the specified MyVector rotated by 90deg
+     */
+    public static MyVector rotate90(MyVector myVector) {
+        return new MyVector(-myVector.y, myVector.x);
+    }
+
+    /**
+     * Rotates a MyVector by -90 degrees
+     *
+     * @param myVector the MyVector to rotate
+     * @return the specified MyVector rotated by -90deg
+     */
+    public static MyVector rotateMin90(MyVector myVector) {
+        return new MyVector(myVector.y, -myVector.x);
+    }
+
+    /**
+     * Returns a random MyVector
+     *
+     * @return a random MyVector of with components ranging from 0 to 1
+     */
+    public static MyVector randomMyVector() {
+        Random rand = new Random();
+
+        // Choose random floats between 0 and 1
+        return new MyVector(rand.nextFloat(), rand.nextFloat());
     }
 
     /**
@@ -419,14 +398,21 @@ public class MyVector {
     }
 
     /**
+     * Rotates the MyVector represented by this instance 90deg
+     */
+    public void rotate90() {
+        float temp = this.x;
+        this.x = -this.y;
+        this.y = temp;
+    }
+
+    /**
      * Rotates the MyVector represented by this instance -90deg
      */
     public void rotateMin90() {
-        float newX = this.y;
-        float newY = -this.x;
-
-        this.x = newX;
-        this.y = newY;
+        float temp = this.y;
+        this.y = -this.x;
+        this.x = temp;
     }
 
     /**
