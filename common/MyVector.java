@@ -310,12 +310,14 @@ public class MyVector {
 
     /**
      * Returns the angle between the positive Cartesian X axis and the
-     * MyVector represented by this instance
+     * MyVector represented by this instance in radians
      *
-     * @return the bearing of the MyVector represented by this instance
+     * @return the bearing of the MyVector represented by this instance in radians
      */
-    public float bearing() {
-        return angle(1, 0);
+    public double bearing() {
+        double ans = Math.acos(this.x / Math.sqrt(this.x * this.x + this.y * this.y));
+        // Account for fact that ans is just the shortest angle from x-axis which is always < 180deg
+        return this.y < 0 ? ans + Math.PI : ans;
     }
 
     /**
