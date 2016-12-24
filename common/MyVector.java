@@ -1,3 +1,5 @@
+package common;
+
 import java.util.Random;
 
 import static java.lang.Math.cos;
